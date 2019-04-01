@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
+  </head>
+  <body>
+
+    <div style="margin:0px; padding:10px;">
+      <div class="container-fluid">
+    
+        <h1>Отбор</h1>
+        
+        <div class="inline form-group">
+          <label for="medicine">Лекарство:</label>
+          <input type="text" id="input_med" style="width: 140px;">
+        </div>
+        
+        <div class="inline form-group">
+          <label for="contract">Контракт:</label>
+          <input type="text" id="input_contract" style="width: 70px;">
+        </div>
+    
+        <p>
+    
+        <button class="action" id="find_load" onclick="google.script.run
+            .withSuccessHandler(print_result)
+            .withFailureHandler(print_error)
+            .runQuery($('#input_med').val(), $('#input_contract').val());">Найти и загрузить</button>
+    
+        <button class="action" id="find_load" onclick="google.script.run
+            .withSuccessHandler(print_result)
+            .withFailureHandler(print_error)
+            .pushToBQ();">Отправить в облако</button>
+    
+      </div> 
+    </div> 
+
+     
+<div id="sidebarValues"></div>
+<div id="error"></div>
+
+
+<!--include the jquery-->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<!--now write your client-side javaScript functions that will run on this HTML page-->
+<script>
+
+  // print result
+  function print_result(result) {
+   if (result !='ErrorStuff'){
+     var div = document.getElementById('sidebarValues');
+     div.innerHTML =  result;
+     var errorDiv = document.getElementById('error');
+     errorDiv.innerHTML = "";
+   }
+   else {
+    var div = document.getElementById('sidebarValues');
+     div.innerHTML = "";
+    var errorDiv = document.getElementById('error');
+     errorDiv.innerHTML = 'There was an error.';
+   }
+  }
+  
+  // print error on exception
+  function print_error(e) {
+    var div = document.getElementById('sidebarValues');
+    div.innerHTML = e.message;
+  }
+  
+</script>
+
+
+  </body>
+</html>
