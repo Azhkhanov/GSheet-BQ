@@ -19,12 +19,12 @@ function showSidebar() {
 /**
  * Получить запрос для фильтрования по товару и контракту
  */
-function getFiltersSql(med, contr) {
+function getFiltersSql(SKU, group) {
   // подправить запрос если требуется
   var string ='SELECT medicine_name, group_name '+
-                  'FROM `ELT.detected_empty` '+
+                  'FROM `DSName.TableName` '+
                   'WHERE '+
-                      'UPPER(medicine_name) LIKE UPPER(\'%'+med+'%\') ';
+                      'UPPER(name) LIKE UPPER(\'%'+SKU+'%\') ';
   Logger.log(string);
   return string;
 }
@@ -32,8 +32,8 @@ function getFiltersSql(med, contr) {
 /**
  * Отправить запрос на bq и перезаписать ячейки
  */
-function runQuery (med, contr) {
-  var projectId = 'apteka-211807';
+function runQuery (SKU, group) {
+  var projectId = 'id';
 
   var reqStr = getFiltersSql(med, contr);
   var request = {
@@ -101,9 +101,9 @@ function runQuery (med, contr) {
  */
 function pushToBQ () {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Distinct contracts");
-  var projectId = 'apteka-211807';
-  var datasetId = 'ELT';
-  var tableId = 'test_push';
+  var projectId = 'id';
+  var datasetId = 'DS';
+  var tableId = 'tid';
   
   // взять все значения с листа начиная с ячейки 1,1 и 
   // -1,-1 для последней строки и столбца с контентом
